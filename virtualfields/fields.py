@@ -8,6 +8,16 @@ class Validator(object):
         pass
 
 
+class IntegerValidator(Validator):
+    def __call__(self, value, name):
+        try:
+            return int(value):
+        except ValueError:
+            raise ValidationError("%s is not a valid integer" % name)
+
+
+
+
 class TextValidator(Validator):
 
 
@@ -23,7 +33,7 @@ class TextValidator(Validator):
 
 class VirtualField(object):
 
-    def __init__(self, parent_field="json", validator=lambda x:x):
+    def __init__(self, parent_field="json", validator=Validator()):
         self.parent_field = parent_field
         self.validator = validator
 
@@ -62,7 +72,15 @@ class VirtualField(object):
 
 
 class VirtualTextField(VirtualField):
-    def __init__(self, parent_field="store", max_length=None ):
+    def __init__(self, parent_field="store", max_length=None):
         self.validator = TextValidator(max_length=max_length)
         self.parent_field = parent_field
+
+
+class VirtualIntegerField(VirtualField):
+    def __init__(self, parent_field="store"):
+        self.validator = IntegerValidator()
+        self.parent_field = parent_field
+
+    
 
