@@ -11,7 +11,7 @@ class Validator(object):
 class IntegerValidator(Validator):
     def __call__(self, value, name):
         try:
-            return int(value):
+            return int(value)
         except ValueError:
             raise ValidationError("%s is not a valid integer" % name)
 
